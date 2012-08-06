@@ -24,11 +24,13 @@ class Parser
     pomos = []
     doc.css('li').each do |li|
       pomo={}
-      if li.children.text["Pomodoro"]
-        time_text = li.children.css(".time").text
-        pomo["time"] = parse_time(time_text)
-        pomos.push(pomo)
-      end
+      type = "Pomodoro" if li.children.text["Pomodoro"]
+      type = 'Short Break' if li.children.text["Short Break"]
+      type = "Long Break" if li.children.text["Long Break"]
+      time_text = li.children.css(".time").text
+      pomo["type"] = type
+      pomo["time"] = parse_time(time_text)
+      pomos.push(pomo)
     end
     return pomos
   end
