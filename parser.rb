@@ -33,9 +33,13 @@ class Parser
     return pomos
   end
   def parse_time(time_text)
-    string_time = time_text.split("about\s").last.split("\n").first
-    string_time = string_time.split("\s").map {|s| if s["\d"] then s.to_i else s end }
-    approximate_time = Time.now - string_time[0].to_i.send(string_time[1])
+    if time_text["about"]
+      string_time = time_text.split("about\s").last.split("\n").first
+      string_time = string_time.split("\s").map {|s| if s["\d"] then s.to_i else s end }
+      approximate_time = Time.now - string_time[0].to_i.send(string_time[1])
+    else 
+      approximate_time = Time.now - 1.minute
+    end
     return approximate_time
   end
 end
