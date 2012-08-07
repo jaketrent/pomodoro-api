@@ -6,12 +6,18 @@ This is a simple sinatra application which acts as an API for your pomodoro info
 
 It's pretty simple. The app (which is hosted on heroku), is accessible through the following url (http://pomodoro-api.herokuapp.com/tomatoist/(:yourtomatoistusername).json). 
 
+# Sample JSON output 
+
+    
+[{"type":"Pomodoro","time":"2012-08-07 04:32:45 +0000"},{"type":"Long Break","time":"2012-08-07 04:32:45 +0000"},{"type":"Pomodoro","time":"2012-08-07 03:33:45 +0000"}]
+
 # Pulling your pomodoro data in through a rake task
 
+This assumes you (1) want to pull in the pomodoro data and save it somewhere (2) that you would like your pomodoro list cleared when you do, thus avoiding duplicate pomodoros from being saved. I assume you're using rails or something similar, if you're writing a rake task. 
 
     require 'net/http'
     namespace :pomodoro do
-      desc "parses pomodoro data and subsequently clears your pomodoro list (which is desirable since otherwise you would likely end up with duplicates)"
+      desc "parses pomodoro data and subsequently clears your pomodoro list"
       task parse_then_clear: :environment do
         Rake::Task['pomodoro:parse'].execute
         puts 'parsed out pomodoros'
